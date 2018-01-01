@@ -17,7 +17,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
     /// </summary>
     public class ComicBooksController : Controller
     {
-        private Context _context;
+        private Context _context = null;
 
         public ComicBooksController()
         {
@@ -187,6 +187,20 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             //            "The provided Issue Number has already been entered for the selected Series.");
             //    }
             //}
+        }
+
+        private bool _disposed = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+            _disposed = true;
+            base.Dispose(disposing);
         }
     }
 }
