@@ -47,6 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Context.cs" />
+    <Compile Include="Data\DatabaseInitializer.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Models\Artist.cs" />
+    <Compile Include="Models\ComicBook.cs" />
+    <Compile Include="Models\ComicBookArtist.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Series.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
