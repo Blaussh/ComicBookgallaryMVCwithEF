@@ -82,10 +82,11 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // TODO Get the comic book artist.
-            // Include the "ComicBook.Series", "Artist", and "Role" navigation properties.
-            var comicBookArtist = new ComicBookArtist();
-
+            var comicBookArtist = _context.ComicBookArtists.Where(cba => cba.ComicBookId == comicBookId && cba.Id == id)
+                                                           .Include(cba => cba.ComicBook.Series)
+                                                           .Include(cba => cba.Artist)
+                                                           .Include(cba => cba.Role)
+                                                           .FirstOrDefault();
             if (comicBookArtist == null)
             {
                 return HttpNotFound();
@@ -97,7 +98,9 @@ namespace ComicBookLibraryManagerWebApp.Controllers
         [HttpPost]
         public ActionResult Delete(int comicBookId, int id)
         {
-            // TODO Delete the comic book artist.
+            var comicBookArtist = new ComicBookArtist() { ComicBookId = comicBookId, Id = id };
+            _context.Entry(comicBookArtist).State = EntityState.Deleted;
+            _context.SaveChanges();
 
             TempData["Message"] = "Your artist was successfully deleted!";
 
@@ -111,20 +114,20 @@ namespace ComicBookLibraryManagerWebApp.Controllers
         /// <param name="viewModel">The view model containing the values to validate.</param>
         private void ValidateComicBookArtist(ComicBookArtistsAddViewModel viewModel)
         {
-            //// If there aren't any "ArtistId" and "RoleId" field validation errors...
-            //if (ModelState.IsValidField("ArtistId") &&
-            //    ModelState.IsValidField("RoleId"))
-            //{
-            //    // Then make sure that this artist and role combination 
-            //    // doesn't already exist for this comic book.
-            //    // TODO Call method to check if this artist and role combination
-            //    // already exists for this comic book.
-            //    if (false)
-            //    {
-            //        ModelState.AddModelError("ArtistId",
-            //            "This artist and role combination already exists for this comic book.");
-            //    }
-            //}
+            // If there aren't any "ArtistId" and "RoleId" field validation errors...
+            if (ModelState.IsValidField("ArtistId") &&
+                ModelState.IsValidField("RoleId"))
+            {
+                // Then make sure that this artist and role combination 
+                // doesn't already exist for this comic book.
+                if (_context.ComicBookArtists.Any(cba => cba.ComicBookId == viewModel.ComicBookId &&
+                                                         cba.ArtistId == viewModel.ArtistId &&
+                                                         cba.RoleId == viewModel.RoleId))
+                {
+                    ModelState.AddModelError("ArtistId",
+                        "This artist and role combination already exists for this comic book.");
+                }
+            }
         }
 
         private bool _disposed = false;

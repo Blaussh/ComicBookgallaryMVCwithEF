@@ -41,9 +41,6 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            // TODO Get the comic book.
-            // Include the "Series", "Artists.Artist", and "Artists.Role" navigation properties.
             var comicBook = _context.ComicBooks
                 .Include(cb => cb.Series)
                 .Include(cb => cb.Artists.Select(a => a.Artist))
@@ -66,7 +63,6 @@ namespace ComicBookLibraryManagerWebApp.Controllers
         {
             var viewModel = new ComicBooksAddViewModel();
 
-            // TODO Pass the Context class to the view model "Init" method.
             viewModel.Init(_context);
 
             return View(viewModel);
