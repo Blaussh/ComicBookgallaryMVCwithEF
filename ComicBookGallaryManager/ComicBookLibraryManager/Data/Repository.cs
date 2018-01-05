@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using ComicBookShared.Data;
 
-namespace ComicBookShared.Data
+namespace ComicBookLibraryManager.Data
 {
     /// <summary>
     /// Repository class that provides various database queries
