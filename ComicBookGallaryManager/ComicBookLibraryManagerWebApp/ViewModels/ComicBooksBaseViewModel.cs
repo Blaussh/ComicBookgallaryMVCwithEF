@@ -23,7 +23,9 @@ namespace ComicBookLibraryManagerWebApp.ViewModels
         /// </summary>
         public virtual void Init(Repository repository)
         {
-            SeriesSelectListItems = repository.OrderSeries();
+            SeriesSelectListItems =  new SelectList(
+                repository.GetSeries(),
+                "Id", "Title");
         }
     }
 }

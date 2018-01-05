@@ -31,7 +31,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var comicBook = Repository.GetComicBookDetails((int)id);
+            var comicBook = Repository.GetComicBook((int)id);
 
             if (comicBook == null)
             {
@@ -107,7 +107,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
             {
                 var comicBook = viewModel.ComicBook;
 
-                Repository.EditComicBook(comicBook);
+                Repository.UpdateComicBook(comicBook);
 
                 TempData["Message"] = "Your comic book was successfully updated!";
 
@@ -126,7 +126,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var comicBook = Repository.GetComicBook((int) id);
+            var comicBook = Repository.GetComicBook((int)id);
 
             if (comicBook == null)
             {
@@ -158,7 +158,7 @@ namespace ComicBookLibraryManagerWebApp.Controllers
                 ModelState.IsValidField("ComicBook.IssueNumber"))
             {
                 // Then make sure that the provided issue number is unique for the provided series.
-                if (Repository.IsIssueNumberExsist(comicBook.Id, comicBook.SeriesId, comicBook.IssueNumber))
+                if (Repository.ComicBookSeriesHasIssueNumber(comicBook.Id, comicBook.SeriesId, comicBook.IssueNumber))
                 {
                     ModelState.AddModelError("ComicBook.IssueNumber",
                         "The provided Issue Number has already been entered for the selected Series.");
