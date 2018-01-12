@@ -33,11 +33,5 @@ namespace ComicBookShared.Data
                 .ToList();
         }
 
-        public IEnumerable GetSeries()
-        {
-            return _context.Series
-                .OrderBy(s => s.Title)
-                .ToList();
-        }
     }
 }
